@@ -44,83 +44,6 @@
             );
         }
 
-        /* ══════════════════ ANIMATED SHAPES ══════════════════ */
-        @keyframes shapeEntrance {
-            0%   { opacity: 0; transform: translateY(-120px) rotate(var(--rot-start)); }
-            100% { opacity: 1; transform: translateY(0px)    rotate(var(--rot-end)); }
-        }
-        @keyframes shapFloat {
-            0%, 100% { transform: translateY(0px)  rotate(var(--rot-end)); }
-            50%       { transform: translateY(18px) rotate(var(--rot-end)); }
-        }
-
-        .hero-shape {
-            position: absolute;
-            border-radius: 9999px;
-            border: 2px solid rgba(255,255,255,0.11);
-            backdrop-filter: blur(2px);
-            box-shadow: 0 8px 32px 0 rgba(255,255,255,0.05);
-            pointer-events: none;
-        }
-        .hero-shape::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 9999px;
-            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.13), transparent 70%);
-        }
-
-        /* Shape 1 – crimson red, large, top-left */
-        .hs1 {
-            width: 580px; height: 135px;
-            --rot-start: -3deg; --rot-end: 12deg;
-            left: -8%; top: 20%;
-            background: linear-gradient(90deg, rgba(192,57,43,0.22), transparent);
-            animation:
-                shapeEntrance 2.4s cubic-bezier(.23,.86,.39,.96) 0.3s both,
-                shapFloat 13s ease-in-out 2.8s infinite;
-        }
-        /* Shape 2 – silver, large, bottom-right */
-        .hs2 {
-            width: 480px; height: 115px;
-            --rot-start: 0deg; --rot-end: -15deg;
-            right: -2%; top: 72%;
-            background: linear-gradient(90deg, rgba(189,195,199,0.16), transparent);
-            animation:
-                shapeEntrance 2.4s cubic-bezier(.23,.86,.39,.96) 0.5s both,
-                shapFloat 11s ease-in-out 3.0s infinite;
-        }
-        /* Shape 3 – dark red, medium, bottom-left */
-        .hs3 {
-            width: 290px; height: 78px;
-            --rot-start: 7deg; --rot-end: -8deg;
-            left: 8%; bottom: 8%;
-            background: linear-gradient(90deg, rgba(150,30,20,0.2), transparent);
-            animation:
-                shapeEntrance 2.4s cubic-bezier(.23,.86,.39,.96) 0.4s both,
-                shapFloat 14s ease-in-out 2.9s infinite;
-        }
-        /* Shape 4 – bright red, small, top-right */
-        .hs4 {
-            width: 190px; height: 58px;
-            --rot-start: 5deg; --rot-end: 20deg;
-            right: 18%; top: 13%;
-            background: linear-gradient(90deg, rgba(231,76,60,0.2), transparent);
-            animation:
-                shapeEntrance 2.4s cubic-bezier(.23,.86,.39,.96) 0.6s both,
-                shapFloat 10s ease-in-out 3.1s infinite;
-        }
-        /* Shape 5 – silver, tiny, top-left area */
-        .hs5 {
-            width: 140px; height: 38px;
-            --rot-start: -10deg; --rot-end: -25deg;
-            left: 22%; top: 8%;
-            background: linear-gradient(90deg, rgba(189,195,199,0.13), transparent);
-            animation:
-                shapeEntrance 2.4s cubic-bezier(.23,.86,.39,.96) 0.7s both,
-                shapFloat 9s ease-in-out 3.2s infinite;
-        }
-
         /* ══════════════════ NAV ══════════════════ */
         nav {
             position: fixed;
@@ -188,12 +111,29 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: #0a1018;
+            background: var(--navy-dark);
         }
 
-        @keyframes heroFadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .hero-stripes {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 40px,
+                rgba(44,62,107,0.15) 40px,
+                rgba(44,62,107,0.15) 80px,
+                transparent 80px,
+                transparent 120px,
+                rgba(176,32,32,0.12) 120px,
+                rgba(176,32,32,0.12) 160px
+            );
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(26,37,53,0.3) 0%, rgba(15,23,32,0.85) 70%);
         }
 
         .hero-content {
@@ -201,15 +141,58 @@
             z-index: 2;
             text-align: center;
             padding: 0 20px;
-        }
-
-        .hero-content > * {
             animation: heroFadeIn 1s ease both;
         }
-        .hero-content > *:nth-child(1) { animation-delay: 0.5s; }
-        .hero-content > *:nth-child(2) { animation-delay: 0.7s; }
-        .hero-content > *:nth-child(3) { animation-delay: 0.9s; }
-        .hero-content > *:nth-child(4) { animation-delay: 1.1s; }
+
+        @keyframes heroFadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            border: 2px solid var(--red);
+            border-radius: 50%;
+            width: 130px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin: 0 auto 32px;
+            position: relative;
+        }
+
+        .hero-badge::before {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            border: 1px solid rgba(192,57,43,0.4);
+            border-radius: 50%;
+        }
+
+        .hero-badge-icon {
+            font-size: 3rem;
+            line-height: 1;
+        }
+
+        .hero-badge-text {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--silver);
+            margin-top: 2px;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 16px;
+        }
 
         .hero-title {
             font-family: 'Bebas Neue', sans-serif;
@@ -217,8 +200,12 @@
             line-height: 0.9;
             letter-spacing: 4px;
             text-transform: uppercase;
+            color: var(--white);
+            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
             margin-bottom: 24px;
         }
+
+        .hero-title .accent { color: var(--red); }
 
         .hero-subtitle {
             font-size: 1.15rem;
@@ -829,40 +816,21 @@
 
     <!-- HERO -->
     <section class="hero">
-        <!-- Ambient glow -->
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 40%, rgba(192,57,43,0.08) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 70%, rgba(189,195,199,0.05) 0%, transparent 60%);pointer-events:none;"></div>
-
-        <!-- Floating shapes (framer-motion style, CSS-powered) -->
-        <div class="hero-shape hs1"></div>
-        <div class="hero-shape hs2"></div>
-        <div class="hero-shape hs3"></div>
-        <div class="hero-shape hs4"></div>
-        <div class="hero-shape hs5"></div>
-
-        <!-- Vignette overlay -->
-        <div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(15,23,32,0.72) 0%, transparent 40%, transparent 60%, rgba(15,23,32,0.85) 100%);pointer-events:none;"></div>
-
+        <div class="hero-stripes"></div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <!-- Badge pill (matches React component's badge) -->
-            <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:9999px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);margin-bottom:28px;">
-                <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="rgba(192,57,43,0.85)"/></svg>
-                <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.55);">Opening Soon — Cranston, RI</span>
+            <div class="hero-badge">
+                <div class="hero-badge-icon">✂️</div>
+                <div class="hero-badge-text">EST. 1899</div>
             </div>
-
-            <h1 class="hero-title">
-                <span style="background:linear-gradient(to bottom, #ffffff, rgba(255,255,255,0.8));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Necos</span><br>
-                <span style="background:linear-gradient(90deg, #e88070, rgba(255,255,255,0.92), #bdc3c7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Barber</span><br>
-                <span style="background:linear-gradient(to bottom, #ffffff, rgba(255,255,255,0.8));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Lounge</span>
-            </h1>
-
-            <p class="hero-subtitle">Experience the best in grooming.<br>Over 25 years of mastery, one precise cut at a time.</p>
-
+            <p class="hero-eyebrow">Opening Soon — Cranston, RI</p>
+            <h1 class="hero-title">Necos<br><span class="accent">Barber</span><br>Lounge</h1>
+            <p class="hero-subtitle">Experience the best in grooming. Over 25 years of mastery, one precise cut at a time.</p>
             <div class="hero-actions">
                 <a href="booking.html" class="btn-primary">Book Appointment</a>
                 <a href="#barbers" class="btn-outline">Meet Our Barbers</a>
             </div>
         </div>
-
         <div class="hero-scroll">
             <svg width="16" height="20" viewBox="0 0 16 20" fill="none"><rect x="6" y="0" width="4" height="10" rx="2" fill="white"/><path d="M8 14 L3 10 L13 10 Z" fill="white"/></svg>
             Scroll
