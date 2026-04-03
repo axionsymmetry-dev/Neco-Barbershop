@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio — Necos Barber Lounge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1a2535;
+            --navy-dark: #0f1720;
+            --navy-mid: #243044;
+            --red: #c0392b;
+            --red-bright: #e74c3c;
+            --silver: #bdc3c7;
+            --silver-light: #ecf0f1;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            background-color: var(--navy-dark);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(15, 23, 32, 0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--red);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 3px;
+            color: var(--white);
+            text-decoration: none;
+        }
+        .nav-logo span { color: var(--red); }
+        .nav-links { display: flex; gap: 36px; list-style: none; }
+        .nav-links a {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--silver);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--red-bright); }
+        .nav-cta {
+            background: var(--red) !important;
+            color: var(--white) !important;
+            padding: 8px 20px;
+            border-radius: 2px;
+        }
+        .nav-cta:hover { background: var(--red-bright) !important; }
+
+        /* ── POLE DIVIDER ── */
+        .pole-divider {
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--red) 0px, var(--red) 40px,
+                var(--white) 40px, var(--white) 80px,
+                #2c3e6b 80px, #2c3e6b 120px
+            );
+        }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            padding: 120px 40px 70px;
+            background: var(--navy-dark);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent, transparent 40px,
+                rgba(44,62,107,0.12) 40px, rgba(44,62,107,0.12) 80px,
+                transparent 80px, transparent 120px,
+                rgba(176,32,32,0.08) 120px, rgba(176,32,32,0.08) 160px
+            );
+        }
+        .page-header-content { position: relative; z-index: 1; }
+        .page-eyebrow {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 12px;
+        }
+        .page-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            letter-spacing: 4px;
+            line-height: 1;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+        .page-subtitle {
+            font-size: 1rem;
+            color: var(--silver);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .page-rule {
+            width: 60px; height: 3px;
+            background: var(--red);
+            margin: 20px auto 0;
+        }
+
+        /* ── FILTER TABS ── */
+        .filter-bar {
+            background: var(--navy-mid);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .filter-btn {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 8px 20px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: transparent;
+            color: var(--silver);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--red);
+            border-color: var(--red);
+            color: var(--white);
+        }
+
+        /* ── BARBER SECTIONS ── */
+        .barber-section {
+            padding: 70px 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .barber-section:nth-child(even) { background: var(--navy-mid); }
+        .barber-section:nth-child(odd) { background: var(--navy-dark); }
+
+        .barber-profile {
+            max-width: 1100px;
+            margin: 0 auto 50px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        .barber-avatar-lg {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--red);
+            background: var(--navy);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            flex-shrink: 0;
+        }
+        .barber-info-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 3px;
+        }
+        .barber-info-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-top: 2px;
+        }
+        .barber-info-bio {
+            font-size: 0.9rem;
+            color: var(--silver);
+            margin-top: 6px;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        /* ── GALLERY GRID ── */
+        .gallery-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            background: var(--navy);
+            aspect-ratio: 4/5;
+            cursor: pointer;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            aspect-ratio: 16/9;
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: transform 0.4s ease;
+        }
+
+        /* Each card gets a unique gradient feel */
+        .gallery-item:nth-child(1) .gallery-placeholder { background: linear-gradient(135deg, #1a2535 0%, #2c3044 50%, #1a1f2e 100%); }
+        .gallery-item:nth-child(2) .gallery-placeholder { background: linear-gradient(135deg, #2a1a1a 0%, #3d2020 50%, #1a1010 100%); }
+        .gallery-item:nth-child(3) .gallery-placeholder { background: linear-gradient(135deg, #1a2030 0%, #253040 50%, #161e2a 100%); }
+        .gallery-item:nth-child(4) .gallery-placeholder { background: linear-gradient(135deg, #1e1a25 0%, #2d2535 50%, #151018 100%); }
+        .gallery-item:nth-child(5) .gallery-placeholder { background: linear-gradient(135deg, #1a2520 0%, #203530 50%, #111e18 100%); }
+        .gallery-item:nth-child(6) .gallery-placeholder { background: linear-gradient(135deg, #251a15 0%, #382518 50%, #181008 100%); }
+
+        .gallery-item:hover .gallery-placeholder { transform: scale(1.04); }
+
+        .gallery-icon { font-size: 3rem; opacity: 0.4; }
+        .gallery-cut-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15,23,32,0.95) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+        .gallery-cut-type {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+        .gallery-cut-detail {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red);
+        }
+
+        /* ── TESTIMONIALS ── */
+        .testimonials-section {
+            background: var(--navy-mid);
+            padding: 80px 40px;
+        }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-eyebrow {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            letter-spacing: 3px;
+            color: var(--white);
+        }
+        .section-rule { width: 60px; height: 3px; background: var(--red); margin: 14px auto 0; }
+
+        .testimonials-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .testimonial-card {
+            background: var(--navy-dark);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 28px;
+            position: relative;
+        }
+        .testimonial-card::before {
+            content: '"';
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 6rem;
+            color: var(--red);
+            opacity: 0.15;
+            position: absolute;
+            top: -10px; left: 16px;
+            line-height: 1;
+        }
+        .testimonial-stars {
+            color: var(--red);
+            font-size: 0.9rem;
+            margin-bottom: 14px;
+        }
+        .testimonial-text {
+            font-size: 0.95rem;
+            color: var(--silver-light);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .testimonial-author {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--silver);
+        }
+        .testimonial-author span { color: var(--red); }
+
+        /* ── CTA ── */
+        .cta-strip {
+            background: var(--red);
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-strip::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(0,0,0,0.05) 20px, rgba(0,0,0,0.05) 40px);
+        }
+        .cta-strip h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            letter-spacing: 4px;
+            color: var(--white);
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .cta-strip p { color: rgba(255,255,255,0.85); position: relative; margin-bottom: 28px; }
+        .btn-white {
+            background: var(--white);
+            color: var(--red);
+            padding: 14px 40px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--navy-dark);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 32px 40px;
+            text-align: center;
+        }
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 4px;
+            color: var(--white);
+            margin-bottom: 8px;
+            text-decoration: none;
+            display: block;
+        }
+        .footer-logo span { color: var(--red); }
+        .footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin: 16px 0; }
+        .footer-links a {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--silver);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--red); }
+        .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.25); margin-top: 16px; }
+
+        @media (max-width: 768px) {
+            nav { padding: 0 20px; }
+            .nav-links { display: none; }
+            .page-header { padding: 100px 20px 50px; }
+            .barber-section { padding: 50px 20px; }
+            .gallery-item:first-child { grid-column: span 1; aspect-ratio: 4/5; }
+            .filter-bar { padding: 16px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Necos <span>Barber</span> Lounge</a>
+        <ul class="nav-links">
+            <li><a href="index.html#barbers">Barbers</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="portfolio.html" style="color:var(--white)">Portfolio</a></li>
+            <li><a href="index.html#visit">Visit Us</a></li>
+            <li><a href="booking.html" class="nav-cta">Book Now</a></li>
+        </ul>
+    </nav>
+
+    <div class="pole-divider" style="margin-top:70px"></div>
+
+    <div class="page-header">
+        <div class="page-header-content">
+            <p class="page-eyebrow">Our Work</p>
+            <h1 class="page-title">The Portfolio</h1>
+            <p class="page-subtitle">Every cut tells a story. Browse the work our barbers are proud to put their name on.</p>
+            <div class="page-rule"></div>
+        </div>
+    </div>
+
+    <!-- FILTER -->
+    <div class="filter-bar">
+        <button class="filter-btn active" onclick="setFilter(this, 'all')">All Work</button>
+        <button class="filter-btn" onclick="setFilter(this, 'fades')">Fades</button>
+        <button class="filter-btn" onclick="setFilter(this, 'classic')">Classic Cuts</button>
+        <button class="filter-btn" onclick="setFilter(this, 'beards')">Beards</button>
+        <button class="filter-btn" onclick="setFilter(this, 'color')">Color</button>
+    </div>
+
+    <!-- BARBER 1 -->
+    <section class="barber-section">
+        <div class="barber-profile">
+            <div class="barber-avatar-lg">💈</div>
+            <div>
+                <div class="barber-info-name">John Doe</div>
+                <div class="barber-info-title">Senior Barber · Fades & Classics</div>
+                <div class="barber-info-bio">Over a decade behind the chair. John's precision fades and classic cuts have earned him a loyal following. Every line is intentional, every taper sharp.</div>
+            </div>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-category="fades">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">✂️</div>
+                    <div class="gallery-cut-label">SKIN FADE</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">High Skin Fade</div>
+                    <div class="gallery-cut-detail">Fades · John Doe</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="classic">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">💈</div>
+                    <div class="gallery-cut-label">CLASSIC TAPER</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Classic Taper</div>
+                    <div class="gallery-cut-detail">Classic Cuts · John Doe</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="beards">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">🧔</div>
+                    <div class="gallery-cut-label">BEARD SHAPE</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Beard Shape Up</div>
+                    <div class="gallery-cut-detail">Beards · John Doe</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="fades">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">✂️</div>
+                    <div class="gallery-cut-label">DROP FADE</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Drop Fade</div>
+                    <div class="gallery-cut-detail">Fades · John Doe</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="classic">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">💈</div>
+                    <div class="gallery-cut-label">SIDE PART</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Hard Part Side</div>
+                    <div class="gallery-cut-detail">Classic · John Doe</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BARBER 2 -->
+    <section class="barber-section">
+        <div class="barber-profile">
+            <div class="barber-avatar-lg">✂️</div>
+            <div>
+                <div class="barber-info-name">Mike Smith</div>
+                <div class="barber-info-title">Style Specialist · Modern & Buzz</div>
+                <div class="barber-info-bio">Mike brings a modern eye to every cut. From textured crops to clean buzz cuts, he reads the client and delivers the look before you even describe it.</div>
+            </div>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-category="classic">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">✂️</div>
+                    <div class="gallery-cut-label">TEXTURED CROP</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Textured Crop</div>
+                    <div class="gallery-cut-detail">Modern · Mike Smith</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="fades">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">💈</div>
+                    <div class="gallery-cut-label">BUZZ CUT</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Clean Buzz</div>
+                    <div class="gallery-cut-detail">Buzz Cuts · Mike Smith</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="fades">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">✂️</div>
+                    <div class="gallery-cut-label">MID FADE</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Mid Fade</div>
+                    <div class="gallery-cut-detail">Fades · Mike Smith</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="classic">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">💈</div>
+                    <div class="gallery-cut-label">SLICK BACK</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Slick Back</div>
+                    <div class="gallery-cut-detail">Modern · Mike Smith</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="beards">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">🧔</div>
+                    <div class="gallery-cut-label">FULL BEARD</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Full Beard Trim</div>
+                    <div class="gallery-cut-detail">Beards · Mike Smith</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BARBER 3 -->
+    <section class="barber-section">
+        <div class="barber-profile">
+            <div class="barber-avatar-lg">🪒</div>
+            <div>
+                <div class="barber-info-name">Sara Lee</div>
+                <div class="barber-info-title">Master Stylist · Cuts & Color</div>
+                <div class="barber-info-bio">Sara combines technical mastery with artistic vision. Her color work and creative cuts push the boundaries of the traditional barbershop, without losing what makes it timeless.</div>
+            </div>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-category="color">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">🎨</div>
+                    <div class="gallery-cut-label">COLOR BLEND</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Gray Blend</div>
+                    <div class="gallery-cut-detail">Color · Sara Lee</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="classic">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">✂️</div>
+                    <div class="gallery-cut-label">FRENCH CROP</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">French Crop</div>
+                    <div class="gallery-cut-detail">Cuts · Sara Lee</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="color">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">🎨</div>
+                    <div class="gallery-cut-label">HIGHLIGHTS</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Natural Highlights</div>
+                    <div class="gallery-cut-detail">Color · Sara Lee</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="fades">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">💈</div>
+                    <div class="gallery-cut-label">TAPER FADE</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Low Taper Fade</div>
+                    <div class="gallery-cut-detail">Fades · Sara Lee</div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="color">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">🎨</div>
+                    <div class="gallery-cut-label">FULL COLOR</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-cut-type">Full Color Treatment</div>
+                    <div class="gallery-cut-detail">Color · Sara Lee</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials-section">
+        <div class="section-header">
+            <p class="section-eyebrow">Client Reviews</p>
+            <h2 class="section-title">What They're Saying</h2>
+            <div class="section-rule"></div>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">John's fade game is unmatched. I've been going to him for 3 years and never once left disappointed. The attention to detail is on another level.</p>
+                <div class="testimonial-author">Marcus T. <span>· Regular Client</span></div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">Mike knows exactly what I want before I even sit down. Walked in for a buzz cut and left looking like a whole new person. Best in the city.</p>
+                <div class="testimonial-author">Devon R. <span>· Regular Client</span></div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">Sara did my color and a trim — I was nervous but she nailed it. Natural, clean, and exactly what I wanted. Already booked my next appointment.</p>
+                <div class="testimonial-author">Chris M. <span>· First-Time Client</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-strip">
+        <h2>Like What You See?</h2>
+        <p>Your next great cut is one booking away.</p>
+        <a href="booking.html" class="btn-white">Book Your Appointment</a>
+    </section>
+
+    <footer>
+        <a href="index.html" class="footer-logo">Necos <span>Barber</span> Lounge</a>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="index.html#services">Services</a>
+            <a href="booking.html">Book Now</a>
+        </div>
+        <div class="footer-copy">© 2025 Necos Barber Lounge · 343 Dyer Ave, Cranston, RI 02920 · (401) 621-8866</div>
+    </footer>
+
+    <script>
+        function setFilter(btn, category) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
